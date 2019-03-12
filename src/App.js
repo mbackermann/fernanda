@@ -1,25 +1,38 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 
 class App extends Component {
+
+  constructor(props){
+    super(props);
+    this.state = {
+      images: []
+    }
+  }
+
+  componentDidMount(){
+    fetch('https://www.instagram.com/explore/tags/casade28/?__a=1')
+      .then((response) => {
+        return response.json();
+      }).then((result) => {
+        this.setState({images: result.graphql.hashtag.edge_hashtag_to_media.edges});
+      });
+  }
+
+  renderImages(){
+    return(
+      this.state.images.map((image) => {
+        return (
+          <img key={image.node.id} className="images" src={image.node.display_url} />
+        )
+      })
+    )
+  }
+
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+        {this.renderImages()}
       </div>
     );
   }
