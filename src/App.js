@@ -32,6 +32,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
+        <h3>Postem imagens no Instagram com a #casade28 para testar</h3>
         {this.renderImages()}
       </div>
     );
